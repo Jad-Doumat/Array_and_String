@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define SIZE 24
+#define nRows 8
+#define nCols 3
+
+// PROTOTYPES
+void print_array(int array[], int length);
+void print_matrix(int mat[][nCols], int rows);
+bool isValid(const int arr[], int length, int pos);
+void remove_element(int arr[], int length, int pos);
+void insert_element(int arr[], int length, int pos, int value);
+
+// Main function
+int main() {
+    int arr[SIZE] = {1, 2, 3, 4, 5, 6, 3, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+    int arr2d[nRows][nCols] = {{0}}; // Initialize a 2D array with default values (0)
+    int mat_transp[nCols][nRows] = {{0}}; // Initialize the transpose matrix with default values (0)
+
+    // Check for duplicates in the array
+    if (found_duplicate(arr, SIZE)) {
+        printf("The array has duplicates.\n");
+    } else {
+        printf("The array has no duplicates.\n");
+    }
+
+    
+    // Print original matrix
+    printf("Original matrix:\n");
+    print_matrix(arr2d, nRows);
+
+    // Transpose the matrix
+    trans_matrix(arr2d, mat_transp);
+
+    // Print transposed matrix
+    printf("\nTransposed matrix:\n");
+    for (int i = 0; i < nCols; i++) {
+        for (int j = 0; j < nRows; j++) {
+            printf("mat_transp[%d][%d] = %d\n", i, j, mat_transp[i][j]);
+        }
+        puts("");
+    }
+
+    return 0;
+}
+
+// Function to check if a position is valid in a 1D array
+bool isValid(const int arr[], int length, int pos) {
+    return pos >= 0 && pos < length; // Returns true if pos is within range
+}
+
+// Function to remove an element from a 1D array by shifting elements up
+void remove_element(int arr[], int length, int pos) {
+    if (!isValid(arr, length, pos)) {
+        printf("Position %d is invalid.\n", pos);
+        return;
+    }
+
+    // Shift elements left to remove the element at `pos`
+    for (int i = pos; i < length - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+
+    // Optional: Set the last element to 0 (or another placeholder) after shifting
+    arr[length - 1] = 0;
+
+    printf("Element at position %d removed.\n", pos);
+}
+
+// Function to insert an element into a 1D array by shifting elements down
+void insert_element(int arr[], int length, int pos, int value) {
+    if (pos < 0 || pos > length) { // Check if pos is within the range [0, length]
+        printf("Position %d is invalid.\n", pos);
+        return;
+    }
+
+    // Shift elements right to make space for the new element
+    for (int i = length; i > pos; i--) {
+        arr[i] = arr[i - 1];
+    }
+
+    // Insert the new value at the specified position
+    arr[pos] = value;
+
+    printf("Element %d inserted at position %d.\n", value, pos);
+}
+
